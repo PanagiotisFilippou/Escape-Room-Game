@@ -17,20 +17,26 @@ public:
 
 	// Called when the game starts
 	virtual void BeginPlay() override;
+
+	void OpenDoor();
 	
 	// Called every frame
 	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
 
 private:
-	UPROPERTY(EditAnywhere)  //VisibleAnywhere if we dont want to be editable
+	//UPROPERTY(EditAnywhere)  //VisibleAnywhere if we dont want to be editable
 	float SetTheOpenValue = 90.f;
 
 	UPROPERTY(EditAnywhere)
 		ATriggerVolume* PressurePlate; //Set a trigger, Unreal we autocomplete.
 
+	/* Set Rotation from option in the engine**//*
 	UPROPERTY(EditAnywhere)
 		FRotator NewRotation = FRotator(0.0f, 0.0f, 0.0f);
+	*/
 
+	UPROPERTY(EditAnywhere)  // Pawn Inherits From Actor
+		AActor* ActorThatOpens;
 
 	
 };
