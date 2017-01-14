@@ -19,18 +19,23 @@ public:
 	virtual void BeginPlay() override;
 
 	void OpenDoor();
+	void CloseDoor();
 	
 	// Called every frame
 	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
 
 private:
-	UPROPERTY(VisibleAnywhere)  //VisibleAnywhere if we dont want to be editable
-	float SetTheOpenValue = 90.f;
+	UPROPERTY(EditAnywhere)  //VisibleAnywhere if we dont want to be editable
+	float SetTheOpenValue = 160.f;
 
 	UPROPERTY(EditAnywhere)
 	ATriggerVolume* PressurePlate; //Set a trigger, Unreal we autocomplete.
 
-	AActor* ActorThatOpens;
+	UPROPERTY(EditAnywhere)
+		float DoorCloseDelay = 1.f;
 
-	
+	float LastDoorOpenTime;
+
+	AActor* ActorThatOpens; // Pawn inherits from actor
+	AActor* Owner; // The owning door
 };
