@@ -20,10 +20,7 @@ void UOpenDoor::BeginPlay()
 {
 	Super::BeginPlay();
 
-	FString ObjectName = GetOwner()->GetName();
-	FString ObjectPosition = GetOwner()->GetActorRotation().ToString();
-	UE_LOG(LogTemp, Error, TEXT("Position Report for %s %s "), *ObjectName, *ObjectPosition);
-
+	ActorThatOpens = GetWorld()->GetFirstPlayerController()->GetPawn(); // Player controller is the "mind"
 }
 
 void UOpenDoor::OpenDoor()
@@ -32,7 +29,7 @@ void UOpenDoor::OpenDoor()
 	AActor* Owner = GetOwner();
 
 	//Create rotator
-	FRotator NewRotation = FRotator(0.0f, 0.0f, 0.0f);
+	FRotator NewRotation = FRotator(0.0f, 160.0f, 0.0f);
 
 	//Set The New Door Rotation
 	Owner->SetActorRotation(NewRotation);
