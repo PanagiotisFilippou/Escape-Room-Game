@@ -36,6 +36,21 @@ void UGrabber::TickComponent( float DeltaTime, ELevelTick TickType, FActorCompon
 	// TODO logout to test
 	UE_LOG(LogTemp, Warning, TEXT("Players View Point is: Location %s, Position %s"), *PlayerViewPointLocation.ToString(), *PlayerViewPointRotation.ToString())
 
+		FVector LineTraceEnd = PlayerViewPointLocation + PlayerViewPointRotation.Vector()*Reach;
+
+	// Draw a red trace in the world to visualize
+
+	DrawDebugLine(
+		GetWorld(),
+		PlayerViewPointLocation,
+		LineTraceEnd,
+		FColor(127, 255, 0),
+		false,
+		0.f,
+		0.f,
+		5.f
+	);
+
 	// Ray-casting out to reach distance
 	// See what we hit
 }
