@@ -24,4 +24,11 @@ public:
 private:
 		// How far ahead of the player can we reach,How long are the hands	
 	float Reach = 100.f;
+
+	UPhysicsHandleComponent* PhysicsHandle = nullptr;
+
+	UInputComponent* InputComponent = nullptr;
+
+	//Ray-casr and grab staff
+	void Grab();
 };
