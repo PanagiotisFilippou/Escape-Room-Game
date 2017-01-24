@@ -21,6 +21,9 @@ public:
 	// Called every frame
 	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
 
+
+
+
 private:
 		// How far ahead of the player can we reach,How long are the hands	
 	float Reach = 100.f;
@@ -34,4 +37,13 @@ private:
 
 	//release staff when key is released
 	void Release();
+
+	//find attached physics handle 
+	void FindPhysicsHandleComponent();
+
+	// Setup assumed attached input component
+	void SetupInputComponent();
+
+	// REeturn  hi for first phisics body in reach
+	const FHitResult GetFirstPhysicsBodyInReach();
 };

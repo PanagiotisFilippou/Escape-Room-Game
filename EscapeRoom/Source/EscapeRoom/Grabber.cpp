@@ -8,6 +8,7 @@ UGrabber::UGrabber()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
+	bWantsBeginPlay = true;
 	PrimaryComponentTick.bCanEverTick = true;
 
 	// ...
@@ -18,9 +19,14 @@ UGrabber::UGrabber()
 void UGrabber::BeginPlay()
 {
 	Super::BeginPlay();
-	UE_LOG(LogTemp, Error, TEXT("Grabber Ready!"));
+	FindPhysicsHandleComponent();
+	SetupInputComponent();
+}
+
+// Look for attached physics handle
+void UGrabber::FindPhysicsHandleComponent()
+{
 	
-	// Look for attached physics handle
 	PhysicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
 	if (PhysicsHandle)
 	{
@@ -30,9 +36,12 @@ void UGrabber::BeginPlay()
 	{
 		UE_LOG(LogTemp, Error, TEXT("%s No Component Found!!"), *GetOwner()->GetName());
 	}
+}
 
-
-	// Look for attached input component, only appears at run time
+// Look for attached input component, only appears at run time
+void UGrabber::SetupInputComponent()
+{
+	
 	InputComponent = GetOwner()->FindComponentByClass<UInputComponent>();
 	if (InputComponent)
 	{
@@ -50,11 +59,19 @@ void UGrabber::BeginPlay()
 void UGrabber::Grab()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Grab Pressed!"));
+
+	// LINE TRACE and see if we reached any actors with physics body collision channel set
+	GetFirstPhysicsBodyInReach();
+	// Try to reach any actors with physics body collision channel set
+
+	// TODO attach physics handle
 }
 
 void UGrabber::Release()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Grab Released!"));
+
+	// TODO release physics handle
 }
 
 // Called every frame
@@ -62,28 +79,23 @@ void UGrabber::TickComponent( float DeltaTime, ELevelTick TickType, FActorCompon
 {
 	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
 
+	// If physics hande attacjed
+		// Move the object that we're holding
+}
+
+const FHitResult UGrabber::GetFirstPhysicsBodyInReach()
+{
 	// Get player View point this tick
 	FVector PlayerViewPointLocation;
 	FRotator PlayerViewPointRotation;
-
-	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(OUT PlayerViewPointLocation,OUT PlayerViewPointRotation);
-	//// TODO logout to test
-	//UE_LOG(LogTemp, Warning, TEXT("Players View Point is: Location %s, Position %s"), *PlayerViewPointLocation.ToString(), *PlayerViewPointRotation.ToString())
+	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(
+		OUT PlayerViewPointLocation,
+		OUT PlayerViewPointRotation);
 
 	FVector LineTraceEnd = PlayerViewPointLocation + PlayerViewPointRotation.Vector()*Reach;
 
 	//// Draw a red trace in the world to visualize
 
-	DrawDebugLine(
-		GetWorld(),
-		(PlayerViewPointLocation),
-		LineTraceEnd,
-		FColor(127, 255, 0),
-		false,
-		0.f,
-		0.f,
-		5.f
-	);
 	//Setup Query parameters
 	FCollisionQueryParams TraceParameters(FName(TEXT("")), false, GetOwner());
 
@@ -102,5 +114,6 @@ void UGrabber::TickComponent( float DeltaTime, ELevelTick TickType, FActorCompon
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Line trace hit: %s"), (*ActorHit->GetName()))
 	}
+	return FHitResult();
 }
 
