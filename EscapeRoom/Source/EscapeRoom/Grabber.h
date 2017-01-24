@@ -29,6 +29,9 @@ private:
 
 	UInputComponent* InputComponent = nullptr;
 
-	//Ray-casr and grab staff
+	//Ray-cast and grab staff
 	void Grab();
+
+	//release staff when key is released
+	void Release();
 };

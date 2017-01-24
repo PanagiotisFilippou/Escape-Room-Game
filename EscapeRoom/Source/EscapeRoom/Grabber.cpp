@@ -32,23 +32,29 @@ void UGrabber::BeginPlay()
 	}
 
 
-	// Look for attached inpuy component, only appears at run time
+	// Look for attached input component, only appears at run time
 	InputComponent = GetOwner()->FindComponentByClass<UInputComponent>();
 	if (InputComponent)
 	{
 		UE_LOG(LogTemp, Error, TEXT("Input component found!!"));
 		//Bind the input axis
 		InputComponent->BindAction("Grab", IE_Pressed, this, &UGrabber::Grab);
+		InputComponent->BindAction("Grab", IE_Released, this, &UGrabber::Release);
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("No inputm component Found!!"), *GetOwner()->GetName());
+		UE_LOG(LogTemp, Error, TEXT("No input component Found!!"), *GetOwner()->GetName());
 	}
 }
 
 void UGrabber::Grab()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Grab Pressed!"));
+}
+
+void UGrabber::Release()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Grab Released!"));
 }
 
 // Called every frame
