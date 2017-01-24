@@ -5,12 +5,10 @@
 #include "Components/ActorComponent.h"
 #include "Grabber.generated.h"
 
-
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class ESCAPEROOM_API UGrabber : public UActorComponent
 {
 	GENERATED_BODY()
-
 public:	
 	// Sets default values for this component's properties
 	UGrabber();
@@ -20,9 +18,6 @@ public:
 	
 	// Called every frame
 	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
-
-
-
 
 private:
 		// How far ahead of the player can we reach,How long are the hands	
@@ -44,6 +39,12 @@ private:
 	// Setup assumed attached input component
 	void SetupInputComponent();
 
-	// REeturn  hi for first phisics body in reach
+	// Reeturns hit for first physics body in reach
 	const FHitResult GetFirstPhysicsBodyInReach();
+	
+	// Returns current start of reacj line
+	FVector GetReachLineStart();
+
+	// Returns current end of reacj line
+	FVector GetReachLineEnd();
 };
