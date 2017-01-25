@@ -29,14 +29,15 @@ private:
 	float SetTheOpenValue = 160.f;
 
 	UPROPERTY(EditAnywhere)
-	ATriggerVolume* PressurePlate; //Set a trigger, Unreal we autocomplete.
+		ATriggerVolume* PressurePlate = nullptr;
 
 	UPROPERTY(EditAnywhere)
 		float DoorCloseDelay = 1.f;
 
 	float LastDoorOpenTime;
 
-	AActor* Owner; // The owning door
+	// The owning door
+	AActor* Owner = nullptr; 
 
 	// Returns total mass of kg
 	float GetTotalMassOfActorsOnPlate();
